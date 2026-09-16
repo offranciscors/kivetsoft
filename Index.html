@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>kivetsoft - Tablero Visual y Conceptual de Proyecto</title>
+<!-- Tailwind CSS v3 with Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'menta-fresco': '#2EC4B6',
+            'menta-hover': '#24ab9e',
+            'azul-marino': '#0F172A',
+            'verde-limpio': '#E6F8F6',
+            'gris-neutro': '#F8FAFC',
+          },
+          fontFamily: {
+            sans: ['Inter', 'Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: {
+            'canva': '0 10px 30px -5px rgba(15, 23, 42, 0.05), 0 4px 12px -2px rgba(15, 23, 42, 0.02)',
+            'sticky': '0 8px 24px -4px rgba(46, 196, 182, 0.15)',
+          }
+        }
+      }
+    }
+  </script>
+<!-- Typography & Global Styles -->
+<style data-purpose="typography">
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+    
+    body {
+      font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+      background-color: #F8FAFC;
+      color: #0F172A;
+    }
+  </style>
+<!-- Visual Elements Styling -->
+<style data-purpose="board-styling">
+    /* Subtle dot grid pattern mimicking Canva & design boards */
+    .canvas-grid-bg {
+      background-image: radial-gradient(#cbd5e1 1.1px, transparent 1.1px);
+      background-size: 24px 24px;
+    }
+    
+    /* Sticky note tape effect */
+    .washi-tape {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 24px;
+      background: rgba(230, 248, 246, 0.85);
+      backdrop-filter: blur(2px);
+      border: 1px dashed rgba(46, 196, 182, 0.4);
+    }
+  </style>
+</head>
+<body class="canvas-grid-bg min-h-screen text-azul-marino antialiased selection:bg-menta-fresco selection:text-white">
+<!-- BEGIN: TopHeader -->
+<header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm" data-purpose="topbar-navigation">
+<div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+<!-- Logo and Board Title Info -->
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-3 pr-4 border-r border-slate-200">
+<img alt="kivetsoft logo" class="h-10 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyS5_s4wz2Q4OYWjdi8VKRTAQ0TUsY-cKa4UDYDe-Y6b5smrWh5ihl4ohVbfQpkhbl8SQls8T2gKJIyY03b6f13ScnCdGuCUW3ZRpJVQ-YrGVu9F4aDx6upqleCW7Hz7OxLLCD8-OI7VIn17lv0z6UnTfe8FcbUMoA34afTUlwEJHLIbiHOwbdXX3hzuwZt5Dmnr00Gxge1pt-qbfETDvB8JM2p9YmiYj3wSixSx5QrfIHREj7LGXq4KxQeDbwT9wBmA"/>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-extrabold text-2xl tracking-tight text-azul-marino">kivet<span class="text-menta-fresco">soft</span></span>
+<span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-verde-limpio text-azul-marino border border-menta-fresco/30">v1.0 Definición</span>
+</div>
+<p class="text-xs text-slate-500 font-medium hidden sm:block">Tablero Visual del Proyecto &amp; Moodboard Estratégico</p>
+</div>
+</div>
+<div class="hidden lg:flex items-center gap-3 text-xs">
+<span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-md bg-slate-100 text-slate-600 font-medium">
+<span class="w-2 h-2 rounded-full bg-menta-fresco animate-pulse"></span>
+            Estado: En Diseño &amp; Conceptualización
+          </span>
+<span class="text-slate-400">|</span>
+<span class="text-slate-500">Sector: Software Veterinario Integral</span>
+</div>
+</div>
+<!-- Header Action Controls -->
+<div class="flex items-center gap-3" data-purpose="board-actions">
+<button class="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold text-azul-marino bg-verde-limpio hover:bg-menta-fresco/20 rounded-lg transition-colors border border-menta-fresco/40" type="button">
+<svg class="w-4 h-4 text-menta-fresco" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="hidden md:inline">Compartir Tablero</span>
+</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold text-white bg-menta-fresco hover:bg-menta-hover rounded-lg shadow-sm transition-all transform active:scale-95" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>Exportar Canvas</span>
+</button>
+</div>
+</div>
+</header>
+<!-- END: TopHeader -->
+<!-- BEGIN: MainContentCanvas -->
+<main class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<!-- Hero Introduction Strip -->
+<div class="mb-8 bg-white border border-slate-200/80 rounded-2xl p-6 sm:p-8 shadow-canva flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden" data-purpose="executive-summary">
+<div class="absolute -right-10 -bottom-10 w-48 h-48 bg-verde-limpio rounded-full blur-2xl opacity-60 pointer-events-none"></div>
+<div class="space-y-2 max-w-3xl">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-verde-limpio text-azul-marino border border-menta-fresco/30">
+<span class="w-2 h-2 rounded-full bg-menta-fresco"></span> Moodboard Ejecutivo de Producto
+        </div>
+<h1 class="text-3xl sm:text-4xl font-extrabold text-azul-marino tracking-tight">
+          kivetsoft: Arquitectura Visual y Funcional
+        </h1>
+<p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+          Ecosistema integral concebido para digitalizar, optimizar y cohesionar la administración clínica, el área asistencial de mascotas, el servicio de estética y la facturación en veterinarias modernas.
+        </p>
+</div>
+<!-- Quick Metrics Pill -->
+<div class="flex items-center gap-4 bg-gris-neutro p-3.5 rounded-xl border border-slate-200 shrink-0">
+<div class="text-center px-3 border-r border-slate-200">
+<p class="text-2xl font-black text-menta-fresco">7</p>
+<p class="text-[11px] font-semibold text-slate-500 uppercase">Módulos Core</p>
+</div>
+<div class="text-center px-3 border-r border-slate-200">
+<p class="text-2xl font-black text-azul-marino">2</p>
+<p class="text-[11px] font-semibold text-slate-500 uppercase">Roles Clave</p>
+</div>
+<div class="text-center px-3">
+<p class="text-2xl font-black text-menta-fresco">100%</p>
+<p class="text-[11px] font-semibold text-slate-500 uppercase">Centralizado</p>
+</div>
+</div>
+</div>
+<!-- Layout Grid (Moodboard Cards) -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+<!-- CARD 1: Brand Identity & Logo Showcase (Cols: 12 / md: 5 / lg: 4) -->
+<!-- BEGIN: CardBrandIdentity -->
+<section class="md:col-span-12 lg:col-span-4 bg-white rounded-2xl p-6 shadow-canva border border-slate-200 flex flex-col justify-between" data-purpose="card-brand-identity">
+<div>
+<!-- Card Header Indicator -->
+<div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-menta-fresco inline-block"></span>
+<h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">Identidad de Marca</h2>
+</div>
+<span class="text-[11px] font-semibold px-2 py-0.5 bg-slate-100 rounded text-slate-500">01 / BRAND</span>
+</div>
+<!-- Logo Display Presentation Box -->
+<div class="bg-gradient-to-b from-verde-limpio/60 to-white rounded-xl p-8 border border-menta-fresco/20 flex flex-col items-center justify-center text-center relative overflow-hidden group">
+<div class="w-full max-w-[240px] transition-transform duration-300 group-hover:scale-105">
+<img alt="Isotipo y logotipo kivetsoft" class="w-full h-auto object-contain mx-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCH9t6_UnDpSz3GEltZ-qbpa02YYax2OLHlt1kgyiLpIcpfShJMhYlq-WRmEcHSLsLQbLoi5AbL2HlS2odG7vZlS3-bcBHHarTu-3O9-niRBv9G8kAr1ye5d7YYVb_bBdVCeDuWNRMsfAq1XkP3uSesHZybOVQ86n0faaaaa6v_TT10DHGzS_FhwtM4rTXuloC2ToF7p_Y6C8e0HctwqNWBBQ7585vWpqhXqlHX4nYfMctptuLIlylF4US0eb6Sw5bOUg"/>
+</div>
+<div class="mt-4">
+<h3 class="text-2xl font-extrabold text-azul-marino tracking-tight">kivet<span class="text-menta-fresco">soft</span></h3>
+<p class="text-xs font-medium text-slate-500 mt-0.5">Gestión veterinaria integral, ágil y confiable</p>
+</div>
+</div>
+<!-- Symbol Rationale Notes -->
+<div class="mt-6 space-y-3">
+<h4 class="text-xs font-bold text-azul-marino uppercase tracking-wide">Concepto del Isotipo:</h4>
+<div class="bg-gris-neutro p-3.5 rounded-xl border border-slate-200/80 text-xs text-slate-600 leading-relaxed">
+<p class="font-medium text-azul-marino mb-1 flex items-center gap-1.5">
+<svg class="w-3.5 h-3.5 text-menta-fresco" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                Perro estilizado con Cruz Médica de Bienestar
+              </p>
+              El isotipo integra la silueta de una mascota en postura atenta unida a la cruz de la salud animal. La fluidez del trazo denota calidez y modernidad tecnológica sin la rigidez de un sistema clínico obsoleto.
+            </div>
+</div>
+</div>
+<!-- Taglist -->
+<div class="mt-6 pt-4 border-t border-slate-100 flex flex-wrap gap-1.5">
+<span class="text-[11px] font-semibold bg-verde-limpio text-azul-marino px-2.5 py-1 rounded-md">#BienestarAnimal</span>
+<span class="text-[11px] font-semibold bg-verde-limpio text-azul-marino px-2.5 py-1 rounded-md">#SaaSClínico</span>
+<span class="text-[11px] font-semibold bg-verde-limpio text-azul-marino px-2.5 py-1 rounded-md">#Simplicidad</span>
+</div>
+</section>
+<!-- END: CardBrandIdentity -->
+<!-- CARD 2: Problem & Solution Definition (Cols: 12 / md: 7 / lg: 5) -->
+<!-- BEGIN: CardProblemSolution -->
+<section class="md:col-span-12 lg:col-span-5 bg-white rounded-2xl p-6 shadow-canva border border-slate-200 flex flex-col justify-between" data-purpose="card-problem-solution">
+<div>
+<!-- Header -->
+<div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-azul-marino inline-block"></span>
+<h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">Definición de la Idea &amp; Problema</h2>
+</div>
+<span class="text-[11px] font-semibold px-2 py-0.5 bg-slate-100 rounded text-slate-500">02 / PROPÓSITO</span>
+</div>
+<!-- Problem Block -->
+<div class="bg-red-50/70 border border-red-200/80 rounded-xl p-4 mb-4">
+<div class="flex items-center gap-2 text-red-700 font-bold text-xs uppercase mb-1.5">
+<svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+              El Desafío en Centros Veterinarios
+            </div>
+<p class="text-xs text-slate-700 leading-relaxed">
+              Dispersión crítica de procesos: cuadernos de citas en papel, historiales médicos en ficheros locales desordenados, inventario sin control de caducidad y desconexión entre el servicio de estética/baño y la caja de ventas.
+            </p>
+</div>
+<!-- Solution Block -->
+<div class="bg-verde-limpio border border-menta-fresco/40 rounded-xl p-4">
+<div class="flex items-center gap-2 text-azul-marino font-bold text-xs uppercase mb-1.5">
+<svg class="w-4 h-4 text-menta-fresco" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+              La Solución kivetsoft
+            </div>
+<p class="text-xs text-slate-800 leading-relaxed">
+              Unificación total en una plataforma en la nube, colaborativa y ágil. Administra con rigor el expediente clínico, agenda turnos en segundos, coordina el área de estética y mantiene el inventario en balance financiero automático.
+            </p>
+</div>
+<!-- Value Pillars -->
+<div class="grid grid-cols-3 gap-3 mt-4 text-center">
+<div class="p-2.5 rounded-lg bg-gris-neutro border border-slate-200">
+<p class="text-xs font-bold text-azul-marino">Cero Papel</p>
+<p class="text-[10px] text-slate-500">Historial 100% digital</p>
+</div>
+<div class="p-2.5 rounded-lg bg-gris-neutro border border-slate-200">
+<p class="text-xs font-bold text-azul-marino">Tiempo Real</p>
+<p class="text-[10px] text-slate-500">Agenda sincronizada</p>
+</div>
+<div class="p-2.5 rounded-lg bg-gris-neutro border border-slate-200">
+<p class="text-xs font-bold text-azul-marino">Rentabilidad</p>
+<p class="text-[10px] text-slate-500">Control de stock &amp; POS</p>
+</div>
+</div>
+</div>
+<div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+<span>Enfoque: Clínicas, Hospitales y Spas Veterinarios</span>
+<span class="font-bold text-menta-fresco">Impacto 360°</span>
+</div>
+</section>
+<!-- END: CardProblemSolution -->
+<!-- CARD 3: Sticky Notes (Cols: 12 / md: 5 / lg: 3) -->
+<!-- BEGIN: CardStickyNotes -->
+<section class="md:col-span-12 lg:col-span-3 space-y-4 flex flex-col justify-between" data-purpose="sticky-notes-group">
+<!-- Sticky Note 1 -->
+<div class="relative bg-[#FFFBEB] p-5 rounded-xl border border-amber-200 shadow-sm transform -rotate-1 hover:rotate-0 transition-transform">
+<div class="washi-tape"></div>
+<span class="text-[10px] font-bold tracking-widest uppercase text-amber-700">Punto Clave #1</span>
+<h3 class="text-sm font-bold text-slate-900 mt-1">Atención sin esperas</h3>
+<p class="text-xs text-slate-700 mt-1 leading-snug">
+            Tiempos de recepción reducidos a menos de 45 segundos al buscar por cédula del tutor o nombre del paciente.
+          </p>
+</div>
+<!-- Sticky Note 2 -->
+<div class="relative bg-verde-limpio p-5 rounded-xl border border-menta-fresco/40 shadow-sm transform rotate-1 hover:rotate-0 transition-transform">
+<div class="washi-tape"></div>
+<span class="text-[10px] font-bold tracking-widest uppercase text-azul-marino">Punto Clave #2</span>
+<h3 class="text-sm font-bold text-azul-marino mt-1">Historial Clínico Unificado</h3>
+<p class="text-xs text-slate-700 mt-1 leading-snug">
+            Diagnósticos, vacunas, cirugías y visitas de peluquería en una línea de tiempo inalterable.
+          </p>
+</div>
+<!-- Sticky Note 3 -->
+<div class="relative bg-white p-5 rounded-xl border-2 border-dashed border-menta-fresco/60 shadow-sm transform -rotate-0.5 hover:rotate-0 transition-transform">
+<span class="text-[10px] font-bold tracking-widest uppercase text-menta-fresco">Punto Clave #3</span>
+<h3 class="text-sm font-bold text-azul-marino mt-1">Stock Automatizado</h3>
+<p class="text-xs text-slate-600 mt-1 leading-snug">
+            Al aplicar un medicamento o champú medicinal, se descuenta de forma autónoma del inventario de farmacia.
+          </p>
+</div>
+</section>
+<!-- END: CardStickyNotes -->
+<!-- CARD 4: Target User Personas (Cols: 12 / lg: 6) -->
+<!-- BEGIN: CardUserPersonas -->
+<section class="md:col-span-12 lg:col-span-6 bg-white rounded-2xl p-6 shadow-canva border border-slate-200" data-purpose="card-user-personas">
+<!-- Header -->
+<div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-menta-fresco inline-block"></span>
+<h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">Usuarios Clave &amp; Roles del Sistema</h2>
+</div>
+<span class="text-[11px] font-semibold px-2 py-0.5 bg-slate-100 rounded text-slate-500">03 / USUARIOS</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<!-- Persona 1: Admin -->
+<div class="bg-gris-neutro p-4 rounded-xl border border-slate-200 flex flex-col justify-between space-y-3">
+<div>
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-azul-marino text-white flex items-center justify-center font-bold text-sm shadow-sm">
+                  AD
+                </div>
+<div>
+<h3 class="text-sm font-bold text-azul-marino">Administrador / Propietario</h3>
+<span class="inline-block px-2 py-0.5 text-[10px] font-bold bg-slate-200 text-azul-marino rounded-full">Acceso Total</span>
+</div>
+</div>
+<ul class="mt-3 space-y-1.5 text-xs text-slate-600">
+<li class="flex items-start gap-1.5">
+<span class="text-menta-fresco font-bold">✓</span> Métricas financieras y control de caja diaria.
+                </li>
+<li class="flex items-start gap-1.5">
+<span class="text-menta-fresco font-bold">✓</span> Auditoría de inventario y alertas de caducidad.
+                </li>
+<li class="flex items-start gap-1.5">
+<span class="text-menta-fresco font-bold">✓</span> Gestión de permisos del personal y sucursales.
+                </li>
+</ul>
+</div>
+<div class="pt-2 border-t border-slate-200/80 text-[11px] text-slate-500 italic">
+              Meta: Máxima visibilidad y rentabilidad sin pérdida de insumos.
+            </div>
+</div>
+<!-- Persona 2: Empleados / Equipo Médico -->
+<div class="bg-gris-neutro p-4 rounded-xl border border-slate-200 flex flex-col justify-between space-y-3">
+<div>
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-menta-fresco text-white flex items-center justify-center font-bold text-sm shadow-sm">
+                  VET
+                </div>
+<div>
+<h3 class="text-sm font-bold text-azul-marino">Equipo Operativo &amp; Médico</h3>
+<span class="inline-block px-2 py-0.5 text-[10px] font-bold bg-verde-limpio text-azul-marino border border-menta-fresco/30 rounded-full">Veterinarios, Estilistas &amp; Recepción</span>
+</div>
+</div>
+<ul class="mt-3 space-y-1.5 text-xs text-slate-600">
+<li class="flex items-start gap-1.5">
+<span class="text-menta-fresco font-bold">✓</span> Registro ágil de signos vitales, recetas y vacunas.
+                </li>
+<li class="flex items-start gap-1.5">
+<span class="text-menta-fresco font-bold">✓</span> Agenda visual de turnos de baño y peluquería.
+                </li>
+<li class="flex items-start gap-1.5">
+<span class="text-menta-fresco font-bold">✓</span> Notificaciones directas a tutores de pacientes.
+                </li>
+</ul>
+</div>
+<div class="pt-2 border-t border-slate-200/80 text-[11px] text-slate-500 italic">
+              Meta: Flujo rápido sin fricciones técnicas durante las consultas.
+            </div>
+</div>
+</div>
+</section>
+<!-- END: CardUserPersonas -->
+<!-- CARD 5: Color Palette "Clínica & Confianza" (Cols: 12 / lg: 6) -->
+<!-- BEGIN: CardColorPalette -->
+<section class="md:col-span-12 lg:col-span-6 bg-white rounded-2xl p-6 shadow-canva border border-slate-200 flex flex-col justify-between" data-purpose="card-color-palette">
+<div>
+<!-- Header -->
+<div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-menta-fresco inline-block"></span>
+<h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">Paleta Cromática: "Clínica &amp; Confianza"</h2>
+</div>
+<span class="text-[11px] font-semibold px-2 py-0.5 bg-slate-100 rounded text-slate-500">04 / DESIGN SYSTEM</span>
+</div>
+<!-- Color Swatches Grid -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+<!-- Swatch 1: Menta Fresco -->
+<div class="rounded-xl p-3 border border-slate-200 flex flex-col justify-between bg-white shadow-sm">
+<div class="w-full h-14 rounded-lg bg-menta-fresco mb-2 flex items-center justify-center text-white font-bold text-xs shadow-inner">
+                #2EC4B6
+              </div>
+<p class="text-xs font-bold text-azul-marino">Menta Fresco</p>
+<p class="text-[10px] text-slate-500 leading-tight mt-0.5">Acentos primarios, CTAs, tags de éxito</p>
+</div>
+<!-- Swatch 2: Azul Marino -->
+<div class="rounded-xl p-3 border border-slate-200 flex flex-col justify-between bg-white shadow-sm">
+<div class="w-full h-14 rounded-lg bg-azul-marino mb-2 flex items-center justify-center text-white font-bold text-xs shadow-inner">
+                #0F172A
+              </div>
+<p class="text-xs font-bold text-azul-marino">Azul Marino</p>
+<p class="text-[10px] text-slate-500 leading-tight mt-0.5">Encabezados, contraste y jerarquía</p>
+</div>
+<!-- Swatch 3: Verde Limpio -->
+<div class="rounded-xl p-3 border border-slate-200 flex flex-col justify-between bg-white shadow-sm">
+<div class="w-full h-14 rounded-lg bg-verde-limpio border border-menta-fresco/30 mb-2 flex items-center justify-center text-azul-marino font-bold text-xs shadow-inner">
+                #E6F8F6
+              </div>
+<p class="text-xs font-bold text-azul-marino">Verde Limpio</p>
+<p class="text-[10px] text-slate-500 leading-tight mt-0.5">Superficies suaves y contenedores</p>
+</div>
+<!-- Swatch 4: Gris Neutro -->
+<div class="rounded-xl p-3 border border-slate-200 flex flex-col justify-between bg-white shadow-sm">
+<div class="w-full h-14 rounded-lg bg-gris-neutro border border-slate-300 mb-2 flex items-center justify-center text-slate-600 font-bold text-xs shadow-inner">
+                #F8FAFC
+              </div>
+<p class="text-xs font-bold text-azul-marino">Gris Neutro</p>
+<p class="text-[10px] text-slate-500 leading-tight mt-0.5">Lienzo base y fondos modulares</p>
+</div>
+</div>
+<!-- Color Psychology Rationale -->
+<div class="mt-4 p-3 bg-gris-neutro rounded-xl border border-slate-200 text-xs text-slate-600">
+<span class="font-semibold text-azul-marino">Criterio Visual:</span> Transmite carácter médico higiénico y moderno sin resultar hospitalario ni frío. Optimizado con altos ratios de contraste WCAG AA para jornadas extensas en pantallas de mostrador.
+          </div>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+<span>Modo Claro Predominante</span>
+<span>Tipografía: Plus Jakarta Sans / Inter</span>
+</div>
+</section>
+<!-- END: CardColorPalette -->
+<!-- CARD 6: Feature Roadmap & Board (Cols: 12 / lg: 7) -->
+<!-- BEGIN: CardFeatureMap -->
+<section class="md:col-span-12 lg:col-span-7 bg-white rounded-2xl p-6 shadow-canva border border-slate-200" data-purpose="card-feature-map">
+<!-- Header -->
+<div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-azul-marino inline-block"></span>
+<h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">Mapa de Funcionalidades Principales</h2>
+</div>
+<span class="text-[11px] font-semibold px-2 py-0.5 bg-slate-100 rounded text-slate-500">05 / REQUERIMIENTOS</span>
+</div>
+<!-- Sticky Feature Cards Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+<!-- Feature 1 -->
+<div class="p-3.5 rounded-xl bg-gris-neutro border border-slate-200 hover:border-menta-fresco transition-all">
+<div class="w-7 h-7 rounded-lg bg-verde-limpio text-azul-marino flex items-center justify-center font-bold text-xs mb-2">
+              01
+            </div>
+<h3 class="text-xs font-bold text-azul-marino">Portal de Inicio &amp; Landing</h3>
+<p class="text-[11px] text-slate-500 mt-1">
+              Página pública de bienvenida, presentación de servicios veterinarios y acceso seguro a tutores.
+            </p>
+</div>
+<!-- Feature 2 -->
+<div class="p-3.5 rounded-xl bg-gris-neutro border border-slate-200 hover:border-menta-fresco transition-all">
+<div class="w-7 h-7 rounded-lg bg-verde-limpio text-azul-marino flex items-center justify-center font-bold text-xs mb-2">
+              02
+            </div>
+<h3 class="text-xs font-bold text-azul-marino">Auth &amp; Control de Roles</h3>
+<p class="text-[11px] text-slate-500 mt-1">
+              Autenticación robusta y permisos segregados para veterinarios, recepcionistas y directores.
+            </p>
+</div>
+<!-- Feature 3 -->
+<div class="p-3.5 rounded-xl bg-gris-neutro border border-slate-200 hover:border-menta-fresco transition-all">
+<div class="w-7 h-7 rounded-lg bg-verde-limpio text-azul-marino flex items-center justify-center font-bold text-xs mb-2">
+              03
+            </div>
+<h3 class="text-xs font-bold text-azul-marino">Dashboard Centralizado</h3>
+<p class="text-[11px] text-slate-500 mt-1">
+              Métricas clave en tiempo real: citas del día, pacientes atendidos, ingresos y stock bajo.
+            </p>
+</div>
+<!-- Feature 4 -->
+<div class="p-3.5 rounded-xl bg-verde-limpio/70 border border-menta-fresco/40 hover:border-menta-fresco transition-all">
+<div class="w-7 h-7 rounded-lg bg-menta-fresco text-white flex items-center justify-center font-bold text-xs mb-2">
+              04
+            </div>
+<h3 class="text-xs font-bold text-azul-marino">Clientes &amp; Pacientes</h3>
+<p class="text-[11px] text-slate-600 mt-1">
+              Ficha clínica universal: raza, microchip, alergias, cartilla de vacunación y galería fotográfica.
+            </p>
+</div>
+<!-- Feature 5 -->
+<div class="p-3.5 rounded-xl bg-gris-neutro border border-slate-200 hover:border-menta-fresco transition-all">
+<div class="w-7 h-7 rounded-lg bg-verde-limpio text-azul-marino flex items-center justify-center font-bold text-xs mb-2">
+              05
+            </div>
+<h3 class="text-xs font-bold text-azul-marino">Agenda de Citas Inteligente</h3>
+<p class="text-[11px] text-slate-500 mt-1">
+              Calendario dinámico con código de color por tipo de consulta, cirugías y control preventivo.
+            </p>
+</div>
+<!-- Feature 6 -->
+<div class="p-3.5 rounded-xl bg-gris-neutro border border-slate-200 hover:border-menta-fresco transition-all">
+<div class="w-7 h-7 rounded-lg bg-verde-limpio text-azul-marino flex items-center justify-center font-bold text-xs mb-2">
+              06
+            </div>
+<h3 class="text-xs font-bold text-azul-marino">Peluquería &amp; Estética</h3>
+<p class="text-[11px] text-slate-500 mt-1">
+              Módulo de turnos de baño, cortes según raza, observaciones de piel y estado de entrega de la mascota.
+            </p>
+</div>
+<!-- Feature 7 (Spans full on grid bottom) -->
+<div class="sm:col-span-2 lg:col-span-3 p-3.5 rounded-xl bg-gris-neutro border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-azul-marino text-white flex items-center justify-center font-bold text-xs shrink-0">
+                07
+              </div>
+<div>
+<h3 class="text-xs font-bold text-azul-marino">Control de Inventario, Insumos &amp; Módulo POS</h3>
+<p class="text-[11px] text-slate-500">Kardex digital para medicamentos, alimentos y accesorios integrado con facturación rápida.</p>
+</div>
+</div>
+<span class="text-[10px] font-bold px-2.5 py-1 bg-white border border-slate-200 rounded text-menta-fresco whitespace-nowrap">Conexión Caja</span>
+</div>
+</div>
+</section>
+<!-- END: CardFeatureMap -->
+<!-- CARD 7: Conceptual Mockup Preview (Cols: 12 / lg: 5) -->
+<!-- BEGIN: CardMockupPreview -->
+<section class="md:col-span-12 lg:col-span-5 bg-white rounded-2xl p-6 shadow-canva border border-slate-200 flex flex-col justify-between" data-purpose="card-mockup-preview">
+<div>
+<!-- Header -->
+<div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-menta-fresco inline-block"></span>
+<h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">Mockup Conceptual / Vista de Sistema</h2>
+</div>
+<span class="text-[11px] font-semibold px-2 py-0.5 bg-slate-100 rounded text-slate-500">06 / PROTOTIPO UI</span>
+</div>
+<!-- Dashboard UI Shell Simulation -->
+<div class="rounded-xl border border-slate-200/90 bg-gris-neutro p-3 shadow-inner overflow-hidden text-xs">
+<!-- Browser / App Header Window Dots -->
+<div class="flex items-center justify-between pb-2 mb-2.5 border-b border-slate-200">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-red-400"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+<span class="ml-2 text-[10px] font-mono text-slate-400">app.kivetsoft.com/dashboard</span>
+</div>
+<span class="text-[10px] font-semibold text-slate-500">Dra. Valentina M.</span>
+</div>
+<div class="grid grid-cols-12 gap-2">
+<!-- Mini Sidebar -->
+<div class="col-span-3 bg-white rounded-lg p-2 border border-slate-200 flex flex-col justify-between h-48">
+<div class="space-y-1">
+<div class="flex items-center gap-1 text-[11px] font-black text-azul-marino pb-1 border-b border-slate-100">
+<span class="w-2 h-2 rounded bg-menta-fresco"></span> kivet
+                  </div>
+<div class="p-1 rounded bg-verde-limpio text-azul-marino font-bold text-[10px]">Dashboard</div>
+<div class="p-1 text-slate-500 text-[10px]">Agenda (8)</div>
+<div class="p-1 text-slate-500 text-[10px]">Pacientes</div>
+<div class="p-1 text-slate-500 text-[10px]">Peluquería</div>
+<div class="p-1 text-slate-500 text-[10px]">Inventario</div>
+</div>
+<div class="text-[9px] text-slate-400 text-center">kivetsoft cloud</div>
+</div>
+<!-- Mini Content Area -->
+<div class="col-span-9 space-y-2">
+<!-- Quick KPI Row -->
+<div class="grid grid-cols-2 gap-2">
+<div class="bg-white p-2 rounded-lg border border-slate-200">
+<p class="text-[10px] text-slate-400">Citas Hoy</p>
+<p class="text-base font-bold text-azul-marino">12 <span class="text-[9px] font-normal text-emerald-600">+2 esp.</span></p>
+</div>
+<div class="bg-white p-2 rounded-lg border border-slate-200">
+<p class="text-[10px] text-slate-400">Peluquería</p>
+<p class="text-base font-bold text-menta-fresco">5 turnos</p>
+</div>
+</div>
+<!-- Active Patient Card Sample -->
+<div class="bg-white p-2.5 rounded-lg border border-slate-200">
+<div class="flex items-center justify-between mb-1.5">
+<span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Paciente en Consulta</span>
+<span class="px-1.5 py-0.5 rounded text-[9px] font-semibold bg-emerald-100 text-emerald-800">En Sala 1</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-verde-limpio border border-menta-fresco flex items-center justify-center text-xs font-bold text-azul-marino">
+                      🐾
+                    </div>
+<div>
+<p class="font-bold text-azul-marino text-xs">Toby <span class="text-[10px] font-normal text-slate-500">(Golden Retriever - 3 años)</span></p>
+<p class="text-[10px] text-slate-400">Tutor: Carlos Gómez • Vacuna Rabia pendiente</p>
+</div>
+</div>
+</div>
+<!-- Stock Alert Strip -->
+<div class="bg-amber-50 border border-amber-200/80 rounded-md p-1.5 flex items-center justify-between text-[10px] text-amber-900">
+<span class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Stock bajo: Amoxicilina suspensión
+                  </span>
+<span class="font-bold underline text-amber-700 cursor-pointer">Reponer</span>
+</div>
+</div>
+</div>
+</div>
+<p class="text-xs text-slate-500 mt-3 italic">
+            *Representación esquemática del espacio de trabajo unificado: flujo expedito para médicos sin saturación de elementos.
+          </p>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+<span class="text-slate-500">UI Adaptable: Desktop &amp; Tablet</span>
+<span class="font-bold text-azul-marino">UX Centrada en Mascotas</span>
+</div>
+</section>
+<!-- END: CardMockupPreview -->
+</div>
+<!-- BEGIN: FooterSummary -->
+<footer class="mt-12 pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500" data-purpose="board-footer">
+<div class="flex items-center gap-2">
+<img alt="kivetsoft logo" class="h-6 w-auto opacity-70" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBI8mMivhIjoFodLIe764HDdpO4mJB3wVekKOM-pkcD-7PJTKQovUlu8lEguKUxUNYYzib451E_y5D3VgFS4z0Gr_JJIzXmf_UqOj1d6Z2e19uGuVO7CfUJjOPViH_wRiB3gdx5Wd4jwpnfIwtOy1dmKlXdG_NjVqNVZwsHVhIGKSgFfMl-IS6i9wwiaXtcyoysJcvqrc9B8LSbHe59g9U961-kYB8KfTzewT3Lhdwybk0hAv-xfQkHdCtZiCFeE248pQ"/>
+<p><strong>kivetsoft</strong> • Tablero Maestro de Arquitectura y Diseño de Producto Veterinario.</p>
+</div>
+<div class="flex items-center gap-4">
+<span>Diseñado bajo la paleta oficial</span>
+<span class="w-1 h-1 rounded-full bg-slate-300"></span>
+<span class="text-azul-marino font-semibold">2025 • Todos los derechos reservados</span>
+</div>
+</footer>
+<!-- END: FooterSummary -->
+</main>
+<!-- END: MainContentCanvas -->
+</body></html>
